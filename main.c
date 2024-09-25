@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
+#include <conio.h>  // lib getch()
 #include <locale.h>//lib setlocale
 #include <windows.h>  //lib SetConsoleOutputCP
 #define Arquivo "livros.bd.txt"
@@ -12,7 +13,7 @@ typedef struct {
   int anoDePublicacao;
   int numeroDePaginas;
   double precoDeCompra;
-  int vendido; //abordagem para dizer se um livro foi vendido. 1 significa vendido
+  int vendido; //flag livro vendido. 1 significa vendido
 } Livro;
 
 void createFile();
@@ -21,19 +22,19 @@ int getLivro(int cod);
 void getLivros();
 void insert();
 void menu();
-void deleteLivro(int posicao);
+void deleteLivro(posicao);
 
 
 int main(){
     int codigoAuxiliar, posicao, opcao;
-    
+
     setlocale(LC_ALL, "pt_BR.UTF-8");
     SetConsoleOutputCP(CP_UTF8);
     SetConsoleCP(CP_UTF8);          
-    
+
     createFile();
     do{
-        
+
     menu();
     scanf("%d", &opcao);
     switch(opcao){
@@ -45,13 +46,13 @@ int main(){
                 deleteLivro(posicao);
                 }
         break;
-                
+
         case 2: insert();
         break;
 
         case 3: getLivros();
         break;
-  
+
         case 0: printf("\nObrigado por utilizar! \n");
     }
   } while(opcao != 0);
@@ -141,12 +142,12 @@ int getLivro(int cod){
 
     return posicao;
 }
-void deleteLivro(int posicao){
+void deleteLivro(){
     Livro livroVendido;
     int posicao = -1;
     FILE *ponteiroExcluir = fopen(Arquivo, "rb+");
     if(ponteiroExcluir!=NULL){
-           
+
     fseek(ponteiroExcluir, sizeof(livroVendido) * (posicao - 1), SEEK_SET);
     fread(&livroVendido, sizeof(Livro), 1, Arquivo);
     livroVendido.vendido = 1;
